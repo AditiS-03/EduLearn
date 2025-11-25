@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduLearn - Empower Your Learning Journey</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <img src="assets/logo.png" alt="" />
+        <span>EduLearn</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/learn.html">Learn</a></li>
+        <li><a href="/pricing.html">Pricing</a></li>
+        <li><a href="/feedback.html">Feedback</a></li>
+      </ul>
+
+      <div class="auth-section" id="authSection">
+        <a href="/register.html" class="login-btn">Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <h1>Empower Your Learning Journey</h1>
+    <p>
+      Access curated courses, interactive learning, and progress tracking — all in one place.
+    </p>
+    <button id="heroButton" class="hero-btn">Join Now</button>
+
+    <div class="hero-illustration">
+      <i class="fas fa-graduation-cap"></i>
+      <h3>Your Learning Adventure Starts Here</h3>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="learn">
+    <div class="features-container">
+      <h2>Why Choose EduLearn?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-book-open"></i>
+          </div>
+          <h3>Interactive Lessons</h3>
+          <p>Engage with dynamic content and hands-on exercises that make learning enjoyable.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <h3>Expert Mentors</h3>
+          <p>Learn from industry professionals who bring real-world experience to every lesson.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-dollar-sign"></i>
+          </div>
+          <h3>Affordable Pricing</h3>
+          <p>Quality education shouldn't break the bank. Start learning with flexible plans.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Personalized Dashboard</h3>
+          <p>Track your progress, set goals, and stay motivated with intelligent insights.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="pricing">
+    <div class="footer-container">
+      <div class="footer-section">
+        <div class="footer-brand">
+          <img src="assets/logo.png" class="footer-logo" alt="" />
+          <span>EduLearn</span>
+        </div>
+        <p>Empowering learners worldwide with accessible, quality education.</p>
+      </div>
+
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="/index.html">Home</a></li>
+          <li><a href="/feedback.html">Feedback</a></li>
+          <li><a href="/learn.html">Learn</a></li>
+          <li><a href="/pricing.html">Pricing</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Connect With Us</h4>
+        <div class="social-icons">
+          <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 EduLearn. All rights reserved.</p>
+    </div>
+  </footer>
+
+  
+  <script>
+    const authSection = document.getElementById("authSection");
+    const heroButton = document.getElementById("heroButton");
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+
+    if (user) {
+      authSection.innerHTML = `
+        <div class="user-info">
+          <img src="assets/profile.jpg" alt="Profile" style="width:30px; height:30px; border-radius:50%; vertical-align:middle;">
+          <span style="margin-left:8px;">${user.name}</span>
+          <button id="logoutBtn" style="margin-left:10px; background:#2563eb; color:white; border:none; border-radius:6px; padding:6px 10px; cursor:pointer;">Logout</button>
+        </div>
+      `;
+      heroButton.textContent = "Start Learning";
+      heroButton.onclick = () => (window.location.href = "learn.html");
+
+      document.getElementById("logoutBtn").onclick = () => {
+        localStorage.removeItem("loggedInUser");
+        window.location.reload();
+      };
+    } else {
+      authSection.innerHTML = `<a href="register.html" class="login-btn">Login</a>`;
+      heroButton.textContent = "Join Now";
+      heroButton.onclick = () => (window.location.href = "register.html"); 
+    }
+  </script>
+</body>
+</html>
