@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduLearn | Login</title>
+  <link rel="stylesheet" href="register.css">
+</head>
+<body>
+
+  <div class="container" id="formContainer">
+    <h2 id="formTitle">Login</h2>
+
+    <!-- LOGIN FORM -->
+    <form id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Email" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <a href="password.html" class="forgot">Forgot Password?</a>
+      <button type="submit" id="loginBtn">Login</button>
+    </form>
+
+    <!-- REGISTER FORM -->
+    <form id="registerForm" style="display: none;">
+      <input type="text" id="regName" placeholder="Full Name" required>
+      <input type="email" id="regEmail" placeholder="Email" required>
+      <input type="password" id="regPassword" placeholder="Password" required>
+      <input type="password" id="regConfirm" placeholder="Confirm Password" required>
+      <button type="submit" id="registerBtn">Sign Up</button>
+    </form>
+
+    <div class="toggle-text">
+      <span id="toggleMessage">Don't have an account?</span>
+      <button type="button" id="toggleForm">Sign Up</button>
+    </div>
+  </div>
+
+  <script>
+    const formTitle = document.getElementById("formTitle");
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+    const toggleForm = document.getElementById("toggleForm");
+    const toggleMessage = document.getElementById("toggleMessage");
+
+    let isRegister = false;
+
+    // Toggle between Login and Register
+    toggleForm.addEventListener("click", () => {
+      isRegister = !isRegister;
+      if (isRegister) {
+        formTitle.textContent = "Create an Account";
+        loginForm.style.display = "none";
+        registerForm.style.display = "block";
+        toggleMessage.textContent = "Already have an account?";
+        toggleForm.textContent = "Login";
+      } else {
+        formTitle.textContent = "Login";
+        loginForm.style.display = "block";
+        registerForm.style.display = "none";
+        toggleMessage.textContent = "Don't have an account?";
+        toggleForm.textContent = "Sign Up";
+      }
+    });
+
+    
+    function isValidPassword(password) {
+      const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+      return passwordRegex.test(password);
+    }
+
+    // Register user
+    registerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("regName").value.trim();
+      const email = document.getElementById("regEmail").value.trim();
+      const password = document.getElementById("regPassword").value.trim();
+      const confirm = document.getElementById("regConfirm").value.trim();
+
+      if (!name || !email || !password || !confirm) return alert("Please fill all fields.");
+      if (password !== confirm) return alert("Passwords do not match!");
+      
+      // ✅ Password strength validation
+      if (!isValidPassword(password)) {
+        return alert("Password must be at least 8 characters long and include one uppercase letter, one number, and one special character.");
+      }
+
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      if (users.find(u => u.email === email)) return alert("User already exists!");
+
+      users.push({ name, email, password });
+      localStorage.setItem("users", JSON.stringify(users));
+      alert("Registration successful! Please login.");
+      toggleForm.click();
+    });
+
+    // Login user
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const user = users.find(u => u.email === email && u.password === password);
+
+      if (!user) return alert("Invalid email or password!");
+
+      localStorage.setItem("loggedInUser", JSON.stringify(user));
+      alert(`Welcome back, ${user.name}!`);
+      window.location.href = "index.html";
+    });
+  </script>
+
+</body>
+</html>
